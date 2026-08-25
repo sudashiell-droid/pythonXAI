@@ -68,6 +68,7 @@ print(type(1.0))     #  <class 'float'>
 print(type("apple")) #  <class 'str'>
 print(type(True))    #  <class 'bool'>
 
+
 # 型態轉換
 print(int(1.0))      #  float轉int
 print(float(1))      #  int轉float
@@ -78,3 +79,17 @@ print(float("1.234"))#  str轉float
 print(str(1.234))    #  float轉str
 print(bool(1.234))   #  float轉bool
 #  print(int("hello"))  # 這行會報錯，因為字串裡面如果有非數字的字元，無法轉換成數字
+
+
+print("輸入開始")
+#  input()是一個函式，可以讓使用者輸入文字
+#  ()裡面的文字試提示訊息會先顯示在終端機上才會等待使用者輸入
+#  input()預設輸入內容都是字串型態
+a = input("請輸入一些文字: ")
+print("輸入結束")
+print(int(a)+10)
+print(type(a))  # 證明過input()輸入內容都是字串
+
+
+a = int(input("半徑長度?"))
+print(a**2*3.14)
