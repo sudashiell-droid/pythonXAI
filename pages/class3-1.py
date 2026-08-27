@@ -40,3 +40,4 @@ if'apple' not in st.session_state:  # 如果session_state中沒有apple這個變
 if st.button('重新整理畫面',key='banana'): # 如果按下按鈕
     # .....
     st.rerun() # 重新執行程式
+

@@ -2205,6 +2205,1110 @@ if st.button("重新整理畫面", key="banana"):
 with st.expander("class4 課堂筆記"):
     st.write(
         """
+# 🐍 Python 學習筆記（四）：`while` 迴圈、亂數、猜數字、字典與圖片
+
+今天學到的 Python 功能越來越厲害了！🎉
+我們今天讓 Python 學會：
+
+> 🔄 一直重複做事情
+> 🛑 在需要的時候停止
+> 🎲 隨機抽數字
+> 🎯 製作猜數字遊戲
+> 🗂️ 用字典整理資料
+> 🖼️ 在網頁上顯示圖片
+
+---
+
+# 一、`while` 迴圈：只要條件成立，就一直做 🔄
+
+`while` 迴圈和之前學過的 `for` 迴圈一樣，都可以重複做事情。
+
+不過 `while` 比較像是在說：
+
+> **「只要這個條件還是 True，就一直做下去！」**
+
+基本寫法：
+
+```python
+while 條件:
+    重複做的事情
+```
+
+例如：
+
+```python
+i = 0
+
+while i < 5:
+    print(i)
+    i += 1
+```
+
+結果：
+
+```text
+0
+1
+2
+3
+4
+```
+
+Python 每做完一次，都會再檢查：
+
+> `i < 5` 還是真的嗎？
+
+如果是 `True`，就再做一次。
+
+如果變成 `False`，就停止迴圈。
+
+---
+
+## `i += 1` 是什麼？
+
+```python
+i += 1
+```
+
+意思是：
+
+```python
+i = i + 1
+```
+
+例如原本：
+
+```text
+i = 0
+```
+
+執行一次後：
+
+```text
+i = 1
+```
+
+再執行：
+
+```text
+i = 2
+```
+
+---
+
+## ⚠️ 小心無限迴圈！
+
+看看這段程式：
+
+```python
+i = 0
+
+while i < 5:
+    print(i)
+```
+
+這樣會一直印出：
+
+```text
+0
+0
+0
+0
+0
+...
+```
+
+因為 `i` 永遠沒有增加，所以：
+
+```python
+i < 5
+```
+
+永遠都是 `True`。
+
+因此，使用 `while` 時要記得想：
+
+> **「我的條件什麼時候才會變成 False？」**
+
+---
+
+# 二、`break`：強制停止迴圈 🛑
+
+`break` 的意思是：
+
+> **立刻跳出目前所在的迴圈！**
+
+例如：
+
+```python
+i = 0
+
+while i < 5:
+    print(i)
+    i += 1
+
+    if i == 3:
+        break
+```
+
+當 `i` 變成 3 時：
+
+```python
+break
+```
+
+就會讓迴圈停止。
+
+---
+
+## `break` 也可以用在 `for` 迴圈
+
+```python
+for i in range(5):
+    print(i)
+
+    if i == 3:
+        break
+```
+
+結果：
+
+```text
+0
+1
+2
+3
+```
+
+因為當 `i` 等於 3 時，就停止了。
+
+💡 `break` 只會跳出**它所在的那一層迴圈**。
+
+---
+
+# 三、`random`：讓 Python 隨機抽數字 🎲
+
+Python 可以使用 `random` 模組來產生隨機數字。
+
+首先要先：
+
+```python
+import random
+```
+
+可以把 `random` 想成：
+
+> 🎲 Python 的抽籤工具箱！
+
+---
+
+# 四、`random.randrange()`：像 `range()` 一樣抽數字
+
+## `random.randrange(7)`
+
+```python
+print(random.randrange(7))
+```
+
+可能抽到：
+
+```text
+0～6
+```
+
+注意：**不會抽到 7！**
+
+---
+
+## 設定開始和結束
+
+```python
+print(random.randrange(1, 6))
+```
+
+可能抽到：
+
+```text
+1、2、3、4、5
+```
+
+一樣不包含最後面的 6。
+
+---
+
+## 設定間隔
+
+```python
+print(random.randrange(1, 6, 2))
+```
+
+可能從這些數字中抽一個：
+
+```text
+1、3、5
+```
+
+---
+
+# 五、`random.randint()`：包含最後一個數字 🎯
+
+```python
+print(random.randint(1, 6))
+```
+
+可能抽到：
+
+```text
+1、2、3、4、5、6
+```
+
+和 `randrange()` 最大的不同是：
+
+> `randint()` **會包含最後面的數字！**
+
+| 指令                       | 範圍  |
+| ------------------------ | --- |
+| `random.randrange(1, 6)` | 1～5 |
+| `random.randint(1, 6)`   | 1～6 |
+
+---
+
+# 六、猜數字遊戲 🎮
+
+我們可以讓電腦偷偷選一個數字：
+
+```python
+target = random.randint(1, 100)
+```
+
+設定玩家可以猜的範圍：
+
+```python
+low = 1
+high = 100
+```
+
+完整程式：
+
+```python
+import random
+
+target = random.randint(1, 100)
+low, high = 1, 100
+
+while True:
+    num = int(input(f"請輸入 {low} 到 {high} 的整數："))
+
+    if num == target:
+        print("猜中了！")
+        break
+
+    elif num < target:
+        print("太小了！")
+        low = num
+
+    else:
+        print("太大了！")
+        high = num
+```
+
+---
+
+## 程式怎麼思考？🤔
+
+假設電腦選的答案是：
+
+```text
+50
+```
+
+玩家猜：
+
+```text
+30
+```
+
+電腦會說：
+
+> 太小了！
+
+下一次就可以從比較大的範圍開始猜。
+
+如果猜：
+
+```text
+70
+```
+
+電腦會說：
+
+> 太大了！
+
+如果猜中：
+
+```text
+50
+```
+
+電腦會說：
+
+> 猜中了！🎉
+
+然後使用：
+
+```python
+break
+```
+
+跳出 `while True` 的無限迴圈。
+
+---
+
+# 七、Streamlit 版猜數字遊戲 🖥️
+
+我們也可以把猜數字遊戲做成網頁！
+
+首先匯入：
+
+```python
+import streamlit as st
+import random
+import time
+```
+
+---
+
+## 用 `ss` 縮短 `session_state`
+
+```python
+ss = st.session_state
+```
+
+之後原本很長的：
+
+```python
+st.session_state.ans
+```
+
+可以簡寫成：
+
+```python
+ss.ans
+```
+
+---
+
+## 第一次進入遊戲時，先建立答案
+
+```python
+if "ans" not in ss:
+    ss.ans = random.randint(1, 100)
+```
+
+意思是：
+
+> 如果還沒有答案，就隨機產生一個 1～100 的數字。
+
+這樣使用者每次按按鈕時，答案就不會一直重新換掉。
+
+---
+
+## 記住最大值和最小值
+
+```python
+if "max_num" not in ss:
+    ss.max_num = 100
+
+if "min_num" not in ss:
+    ss.min_num = 1
+```
+
+這樣網頁可以記住目前猜數字的範圍。
+
+---
+
+## 建立輸入框
+
+```python
+num = st.number_input(
+    f"請輸入 {ss.min_num} 到 {ss.max_num} 的整數",
+    step=1
+)
+```
+
+例如目前範圍是：
+
+```text
+30 到 70
+```
+
+使用者就會知道下一次應該猜哪個範圍。
+
+---
+
+## 按下「猜！」按鈕
+
+```python
+if st.button("猜！"):
+```
+
+如果使用者真的按下按鈕，就開始判斷。
+
+### 猜太大
+
+```python
+if num > ss.ans:
+    st.write("太大了")
+```
+
+### 猜太小
+
+```python
+elif num < ss.ans:
+    st.write("太小了")
+```
+
+### 猜對了
+
+```python
+else:
+    st.write("答對了")
+    st.balloons()
+```
+
+答對時就放氣球！🎈🎈🎈
+
+---
+
+## `time.sleep()`：暫停一下 ⏰
+
+```python
+time.sleep(1)
+```
+
+意思是：
+
+> 暫停 1 秒鐘。
+
+例如答對時：
+
+```python
+st.balloons()
+time.sleep(1)
+st.rerun()
+```
+
+可以先看到氣球，再重新開始遊戲。
+
+---
+
+# 八、字典 `dict`：有標籤的資料盒 🗂️
+
+之前我們學過 `list`：
+
+```python
+fruits = ["apple", "banana", "orange"]
+```
+
+列表是用編號找到資料：
+
+```python
+fruits[0]
+```
+
+但是字典不一樣！
+
+字典是使用：
+
+> **key → value**
+
+也就是：
+
+> **名字 → 資料**
+
+例如：
+
+```python
+d = {
+    "a": 1,
+    "b": 2,
+    "c": 3
+}
+```
+
+可以想成：
+
+| Key（標籤） | Value（資料） |
+| ------- | --------- |
+| a       | 1         |
+| b       | 2         |
+| c       | 3         |
+
+---
+
+# 九、字典的特色
+
+## Key 必須是唯一的
+
+不能有兩個完全一樣的 key。
+
+例如：
+
+```python
+{
+    "姓名": "小明",
+    "年齡": 10
+}
+```
+
+---
+
+## Value 可以重複
+
+```python
+{
+    "國文": 100,
+    "數學": 100,
+    "英文": 100
+}
+```
+
+Value 都是 100 沒關係。
+
+---
+
+## 字典不是用 index 取資料
+
+列表：
+
+```python
+fruits[0]
+```
+
+字典：
+
+```python
+d["a"]
+```
+
+字典要使用 **key** 找資料。
+
+---
+
+# 十、`keys()`：取得所有 key
+
+```python
+d = {"a": 1, "b": 2, "c": 3}
+
+print(d.keys())
+```
+
+可以使用迴圈：
+
+```python
+for key in d.keys():
+    print(key)
+```
+
+結果：
+
+```text
+a
+b
+c
+```
+
+---
+
+# 十一、`values()`：取得所有 value
+
+```python
+for value in d.values():
+    print(value)
+```
+
+結果：
+
+```text
+1
+2
+3
+```
+
+---
+
+# 十二、`items()`：一次取得 key 和 value
+
+```python
+for key, value in d.items():
+    print(key, value)
+```
+
+結果：
+
+```text
+a 1
+b 2
+c 3
+```
+
+這個方法很適合需要同時知道「名字」和「資料」的時候。
+
+---
+
+# 十三、新增與修改字典資料 ✏️
+
+## 新增
+
+```python
+d["d"] = 4
+```
+
+如果原本沒有 `"d"`，就會新增。
+
+結果：
+
+```python
+{
+    "a": 1,
+    "b": 2,
+    "c": 3,
+    "d": 4
+}
+```
+
+---
+
+## 修改
+
+```python
+d["a"] = 5
+```
+
+如果 `"a"` 已經存在，就會把原本的值改掉。
+
+---
+
+# 十四、`pop()`：刪除字典資料 ❌
+
+```python
+d.pop("a")
+```
+
+會刪除 key 是 `"a"` 的資料，並且把它的 value 回傳。
+
+如果想避免資料不存在時發生錯誤，可以設定預設答案：
+
+```python
+d.pop("e", "Not found")
+```
+
+如果找不到 `"e"`，就會得到：
+
+```text
+Not found
+```
+
+---
+
+# 十五、`in`：檢查 key 存不存在 🔍
+
+```python
+print("a" in d)
+```
+
+如果有 `"a"`：
+
+```text
+True
+```
+
+如果沒有：
+
+```python
+print("e" in d)
+```
+
+結果：
+
+```text
+False
+```
+
+💡 對字典直接使用 `in` 時，主要是在檢查 **key**。
+
+---
+
+# 十六、複雜的字典：盒子裡還有盒子 📦
+
+字典裡可以放列表，也可以放另一個字典！
+
+```python
+d = {
+    "a": [1, 2, 3],
+    "b": {
+        "c": 4,
+        "d": 5
+    }
+}
+```
+
+取得 `"a"`：
+
+```python
+print(d["a"])
+```
+
+結果：
+
+```text
+[1, 2, 3]
+```
+
+取得第一個數字：
+
+```python
+print(d["a"][0])
+```
+
+結果：
+
+```text
+1
+```
+
+取得 `"b"` 裡面的 `"c"`：
+
+```python
+print(d["b"]["c"])
+```
+
+結果：
+
+```text
+4
+```
+
+---
+
+# 十七、成績登記系統 📚
+
+我們可以用複雜的字典記錄學生的成績：
+
+```python
+grade = {
+    "小明": {
+        "國文": [90, 80, 70],
+        "數學": [85, 75, 65],
+        "英文": [95, 85, 75]
+    },
+    "小美": {
+        "國文": [88, 78, 68],
+        "數學": [83, 73, 63],
+        "英文": [93, 83, 73]
+    }
+}
+```
+
+可以想成：
+
+```text
+學生
+ └── 科目
+      └── 每次考試成績
+```
+
+---
+
+## 取得小明的數學成績
+
+```python
+print(grade["小明"]["數學"])
+```
+
+結果：
+
+```text
+[85, 75, 65]
+```
+
+---
+
+## 取得小美第一次英文成績
+
+```python
+print(grade["小美"]["英文"][0])
+```
+
+結果：
+
+```text
+93
+```
+
+---
+
+# 十八、計算平均成績 🧮
+
+Python 有：
+
+```python
+sum()
+```
+
+可以把很多數字加起來。
+
+例如：
+
+```python
+scores = [90, 80, 70]
+
+print(sum(scores))
+```
+
+結果：
+
+```text
+240
+```
+
+再搭配：
+
+```python
+len(scores)
+```
+
+就可以算平均：
+
+```python
+avg = sum(scores) / len(scores)
+```
+
+---
+
+## 印出每位同學的國文平均
+
+```python
+for name, subjects in grade.items():
+    chinese = subjects["國文"]
+    avg = sum(chinese) / len(chinese)
+
+    print(f"{name}的國文段考平均成績是 {avg:.2f}")
+```
+
+---
+
+## `:.2f` 是什麼？
+
+```python
+f"{avg:.2f}"
+```
+
+意思是：
+
+> 小數點後面顯示 2 位。
+
+例如：
+
+```text
+83.3333333
+```
+
+會變成：
+
+```text
+83.33
+```
+
+---
+
+# 十九、計算總平均成績
+
+可以先把所有科目的成績加起來：
+
+```python
+for name, subjects in grade.items():
+    total = 0
+
+    for scores in subjects.values():
+        total += sum(scores)
+
+    avg = total / (len(subjects) * 3)
+
+    print(f"{name}的總平均成績是 {avg:.2f}")
+```
+
+這裡使用了：
+
+* `for` 迴圈
+* 字典 `dict`
+* `values()`
+* `sum()`
+* `len()`
+* f-string
+
+把以前學過的東西全部結合在一起了！🎉
+
+---
+
+# 二十、Streamlit 顯示圖片 🖼️
+
+首先建立標題：
+
+```python
+st.title("圖片元件")
+```
+
+然後使用：
+
+```python
+st.image("image/apple.png", width=300)
+```
+
+意思是：
+
+> 顯示 `image/apple.png` 這張圖片，寬度設定為 300。
+
+---
+
+# 二十一、`os.listdir()`：查看資料夾裡的檔案 📁
+
+首先匯入：
+
+```python
+import os
+```
+
+設定資料夾名稱：
+
+```python
+image_folder = "image"
+```
+
+取得裡面的檔案：
+
+```python
+image_files = os.listdir(image_folder)
+```
+
+假設資料夾裡有：
+
+```text
+apple.png
+banana.png
+orange.png
+```
+
+`image_files` 就會得到一個列表。
+
+---
+
+# 二十二、用 `for` 顯示所有圖片
+
+```python
+for image_file in image_files:
+    st.image(
+        f"{image_folder}/{image_file}",
+        width=image_size
+    )
+```
+
+意思是：
+
+> 一張一張把資料夾裡的圖片拿出來顯示！
+
+---
+
+# 二十三、讓使用者調整圖片大小 🔍
+
+```python
+image_size = st.number_input(
+    "圖片大小",
+    min_value=1,
+    max_value=100,
+    value=100
+)
+```
+
+使用者可以自己決定圖片要多大。
+
+然後：
+
+```python
+st.image(
+    f"{image_folder}/{image_file}",
+    width=image_size
+)
+```
+
+圖片就會跟著設定改變。
+
+---
+
+# 二十四、`use_container_width=True`
+
+另一種顯示圖片的方法：
+
+```python
+st.image(
+    f"{image_folder}/{image_file}",
+    use_container_width=True
+)
+```
+
+意思是：
+
+> 讓圖片的寬度自動配合目前網頁容器的寬度。
+
+---
+
+# 二十五、`st.success()`：顯示成功訊息 ✅
+
+```python
+st.success("購買成功！")
+```
+
+網頁上會顯示一個漂亮的成功提示。
+
+很適合用在：
+
+* 註冊成功
+* 登入成功
+* 購買成功
+* 儲存成功
+
+---
+
+# 🎯 今天的重點總整理
+
+| 指令                         | 功能                 |
+| -------------------------- | ------------------ |
+| `while`                    | 條件成立時一直重複          |
+| `while True`               | 建立持續執行的迴圈          |
+| `break`                    | 強制跳出迴圈             |
+| `+=`                       | 在原本的數字上增加          |
+| `random.randint()`         | 隨機抽數字，包含結束值        |
+| `random.randrange()`       | 隨機抽數字，不包含結束值       |
+| `dict`                     | 用 key 和 value 儲存資料 |
+| `keys()`                   | 取得所有 key           |
+| `values()`                 | 取得所有 value         |
+| `items()`                  | 同時取得 key 和 value   |
+| `pop()`                    | 刪除資料               |
+| `in`                       | 檢查 key 是否存在        |
+| `sum()`                    | 把數字全部加起來           |
+| `:.2f`                     | 小數點顯示兩位            |
+| `os.listdir()`             | 取得資料夾裡的檔案          |
+| `st.image()`               | 顯示圖片               |
+| `use_container_width=True` | 圖片自動符合容器寬度         |
+| `st.success()`             | 顯示成功訊息             |
+
+---
+
+# 🌟 今天最重要的一句話
+
+**`while` 可以讓程式按照條件一直重複，`random` 可以讓電腦隨機抽數字，`dict` 可以把資料整理得更有條理，而 Streamlit 可以把這些功能變成好玩的互動網頁！**
+
+💡 下一次可以試著把今天的「猜數字遊戲」再升級，例如加入「猜了幾次」的計數器，練習 `while`、`session_state` 和變數一起使用。
 
       """
     )
