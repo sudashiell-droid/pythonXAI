@@ -3316,5 +3316,1247 @@ with st.expander("class5 課堂筆記"):
     st.write(
         """
 
+🐍 Python 今日課程筆記
+
+今天主要學了兩個很有趣的主題：
+
+🛒 用 Streamlit 製作購物平台
+🤖 用 OpenAI API 製作 AI 聊天機器人
+💬 把 AI 聊天機器人放進 Streamlit 網頁
+第一部分 🛒 製作購物平台
+1. import 是什麼？
+import streamlit as st
+import time
+
+
+import 就像是：
+
+📦「把別人做好的工具箱拿來使用！」
+
+例如：
+
+streamlit：幫我們做網頁
+time：可以控制時間，例如等待 1 秒
+
+而：
+
+as st
+
+
+就是幫工具取一個比較短的名字。
+
+所以：
+
+import streamlit as st
+
+
+之後就可以寫：
+
+st.title()
+st.button()
+st.image()
+
+
+而不用一直寫 streamlit.title()。
+
+2. st.title()：放一個大標題
+st.title("購物平台")
+
+
+就是在網頁上顯示：
+
+購物平台
+
+可以把它想成：
+
+🏷️ 幫網頁掛上一個大招牌。
+
+3. st.number_input()：讓使用者輸入數字
+cols_count = st.number_input(
+    "請輸入欄位數",
+    min_value=1,
+    max_value=5,
+    value=2,
+    step=1
+)
+
+
+這是在網頁上放一個「數字輸入框」。
+
+例如使用者可以選：
+
+1
+2
+3
+4
+5
+
+
+幾個重要設定：
+
+min_value=1 → 最小只能輸入 1
+max_value=5 → 最大只能輸入 5
+value=2 → 一開始預設是 2
+step=1 → 每次增加 1
+
+📌 可以記成：
+
+number_input = 「請你輸入一個數字」
+
+4. session_state：記住資料的小書包 🎒
+
+這是今天非常重要的東西。
+
+st.session_state
+
+
+可以把它想成：
+
+🎒 Streamlit 幫我們準備的一個「可以記住東西的小書包」。
+
+例如：
+
+if "products" not in st.session_state:
+
+
+意思是：
+
+「書包裡面有沒有叫做 products 的東西？」
+
+如果沒有：
+
+st.session_state.products = [...]
+
+
+就把商品資料放進去。
+
+5. List（列表）📋
+
+例如：
+
+[
+    "apple",
+    "banana",
+    "orange"
+]
+
+
+這是一個列表（List）。
+
+可以把 List 想成：
+
+📋 一張購物清單。
+
+裡面可以放很多東西。
+
+例如：
+
+fruits = ["apple", "banana", "orange"]
+
+
+就代表：
+
+fruits
+ ├─ apple
+ ├─ banana
+ └─ orange
+
+6. Dictionary（字典）📖
+
+你的商品資料是：
+
+{
+    "name": "apple",
+    "path": "image/apple.png",
+    "price": 10,
+    "stock": 10
+}
+
+
+這叫做 Dictionary（字典）。
+
+可以把它想成：
+
+📖 一本「商品資料卡」。
+
+每一個資料都有自己的名字。
+
+例如：
+
+"name"
+
+
+代表商品名稱。
+
+"price"
+
+
+代表價格。
+
+"stock"
+
+
+代表庫存。
+
+所以：
+
+product["price"]
+
+
+就是：
+
+💰 「拿出這個商品的價格。」
+
+7. List + Dictionary
+
+你的商品資料其實是：
+
+[
+    {"name": "apple", "price": 10, "stock": 10},
+    {"name": "banana", "price": 10, "stock": 10},
+    {"name": "orange", "price": 10, "stock": 10}
+]
+
+
+可以想成：
+
+📋 一張商品清單，裡面放了很多張商品資料卡。
+
+8. st.columns()：把網頁切成幾欄
+cols = st.columns(cols_count)
+
+
+如果：
+
+cols_count = 3
+
+
+就會把網頁分成：
+
+┌────────┬────────┬────────┐
+│ 第1欄  │ 第2欄  │ 第3欄  │
+└────────┴────────┴────────┘
+
+
+這樣商品就可以排在不同欄位裡。
+
+9. for 迴圈 🔄
+for i in range(len(st.session_state.products)):
+
+
+for 可以想成：
+
+🔄「一個一個檢查。」
+
+例如有 4 個商品：
+
+apple
+banana
+orange
+bg
+
+
+程式就會一個一個處理。
+
+10. range()：產生數字
+range(4)
+
+
+會產生：
+
+0
+1
+2
+3
+
+
+所以：
+
+for i in range(4):
+
+
+就是：
+
+「從 0 開始，一直做到 3。」
+
+📌 Python 很重要的一個特色：
+
+數字通常從 0 開始算。
+
+11. % 餘數
+
+這一行很重要：
+
+col_index = i % cols_count
+
+
+% 叫做取餘數。
+
+例如：
+
+5 % 2 = 1
+
+
+因為：
+
+5 ÷ 2 = 2 …… 1
+
+
+所以餘數是 1。
+
+在這個購物平台裡：
+
+i % cols_count
+
+
+可以幫助我們決定：
+
+📍「這個商品應該放在哪一欄？」
+
+12. with：在某個區域裡做事情
+with cols[col_index]:
+
+
+可以想成：
+
+🚪「進入這一欄，接下來的東西都放在這裡。」
+
+例如：
+
+with cols[0]:
+    st.write("蘋果")
+
+
+就是把「蘋果」放到第 1 欄。
+
+13. st.image()：顯示圖片 🖼️
+st.image(
+    st.session_state.products[i]["path"],
+    use_container_width=True
+)
+
+
+就是：
+
+🖼️ 把商品圖片顯示在網頁上。
+
+path 是圖片的位置。
+
+例如：
+
+"image/apple.png"
+
+
+代表：
+
+📁 在 image 資料夾裡，有一張叫做 apple.png 的圖片。
+
+14. st.write()：顯示文字
+st.write("價格：10")
+
+
+就是把文字顯示在網頁上。
+
+例如：
+
+st.write(f"價格：{product['price']}")
+
+
+就可以把商品真正的價格放進去。
+
+15. f""：把資料放進文字裡
+
+例如：
+
+name = "apple"
+price = 10
+
+
+可以寫：
+
+f"商品：{name}"
+
+
+結果：
+
+商品：apple
+
+
+也可以：
+
+f"價格：{price}"
+
+
+結果：
+
+價格：10
+
+
+📌 記法：
+
+f"" = 「我要把變數塞進文字裡！」
+
+16. st.button()：做一個按鈕 🔘
+if st.button("購買apple"):
+
+
+網頁就會出現：
+
+[ 購買apple ]
+
+
+當使用者按下按鈕：
+
+if
+
+
+裡面的程式就會執行。
+
+所以可以把它想成：
+
+🔘 如果我按下按鈕，就做某件事情。
+
+17. if：如果……就……
+if stock > 0:
+
+
+意思是：
+
+「如果庫存大於 0，就可以買。」
+
+例如：
+
+if stock > 0:
+    print("可以購買")
+else:
+    print("沒有庫存")
+
+
+就像生活中的：
+
+🧑「如果冰箱裡有牛奶，就喝牛奶；不然就不能喝。」
+
+18. else：不然……
+else:
+
+
+代表：
+
+「如果前面的條件不成立，就做這件事。」
+
+例如：
+
+if stock > 0:
+    print("可以購買")
+else:
+    print("庫存不足")
+
+19. >：大於
+stock > 0
+
+
+意思是：
+
+庫存是不是「大於 0」？
+
+其他常見符號：
+
+符號	意思
+>	大於
+<	小於
+>=	大於或等於
+<=	小於或等於
+==	等於
+!=	不等於
+
+⚠️ 注意：
+
+=
+
+
+和
+
+==
+
+
+不一樣！
+
+= 是「放進去」。
+
+x = 10
+
+
+意思是：
+
+把 10 放進 x。
+
+而：
+
+x == 10
+
+
+是在問：
+
+「x 是不是等於 10？」
+
+20. 修改庫存
+
+購買一個商品：
+
+st.session_state.products[i]["stock"] = \
+    st.session_state.products[i]["stock"] - 1
+
+
+意思就是：
+
+🛒 買走一個 → 庫存減少 1。
+
+例如原本：
+
+庫存：10
+
+
+買一次：
+
+庫存：9
+
+
+再買一次：
+
+庫存：8
+
+21. st.success()：顯示成功訊息 ✅
+st.success("購買成功")
+
+
+網頁會顯示成功的訊息。
+
+可以想成：
+
+🟢「太棒了！事情成功了！」
+
+22. st.error()：顯示錯誤訊息 ❌
+st.error("庫存不足")
+
+
+可以想成：
+
+🔴「糟糕！出現問題了！」
+
+23. in：有沒有在裡面？
+if "成功" in st.session_state.message:
+
+
+意思是：
+
+「成功 這兩個字有沒有出現在訊息裡？」
+
+例如：
+
+購買apple成功
+
+
+裡面有「成功」。
+
+所以條件成立。
+
+24. time.sleep()：休息一下 ⏰
+time.sleep(1)
+
+
+意思是：
+
+⏳ 暫停 1 秒。
+
+例如顯示：
+
+購買成功！
+
+
+停留 1 秒後，再繼續做其他事情。
+
+25. st.rerun()：重新整理 🔄
+st.rerun()
+
+
+可以想成：
+
+🔄「請重新跑一次網頁程式！」
+
+為什麼需要？
+
+例如買完蘋果後：
+
+原本庫存：10
+↓
+購買
+↓
+庫存：9
+
+
+重新執行後，網頁就會顯示最新的庫存。
+
+第二部分 📦 新增商品庫存
+26. append()：加入東西
+product_names = []
+
+for p in st.session_state.products:
+    product_names.append(p["name"])
+
+
+一開始：
+
+product_names = []
+
+
+是一個空清單。
+
+然後：
+
+append()
+
+
+就是：
+
+➕「把東西加到清單最後面。」
+
+例如：
+
+names = []
+
+names.append("apple")
+names.append("banana")
+
+
+最後：
+
+["apple", "banana"]
+
+27. selectbox()：選擇一個東西
+selected_product = st.selectbox(
+    "選擇商品",
+    product_names
+)
+
+
+網頁會出現一個選單：
+
+選擇商品 ▼
+apple
+banana
+orange
+
+
+使用者可以選其中一個。
+
+📌 記法：
+
+selectbox = 📋「請你選一個！」
+
+28. 新增庫存
+p["stock"] = p["stock"] + add_stock
+
+
+假設：
+
+原本庫存：10
+新增：5
+
+
+就變成：
+
+10 + 5 = 15
+
+
+所以：
+
+➕ 新增商品就是把數量加回去。
+
+第三部分 🤖 製作 AI 聊天機器人
+
+接下來進入今天另一個大主題：
+
+🤖 讓 Python 可以跟 AI 說話！
+
+29. openai
+import openai
+
+
+這是把 OpenAI 的工具拿進 Python。
+
+就像：
+
+🧰 拿出一個「可以跟 AI 溝通」的工具箱。
+
+30. dotenv
+from dotenv import load_dotenv
+
+
+這個工具可以幫我們讀取 .env 檔案。
+
+.env 可以想成：
+
+🔐 一個專門放秘密設定的小盒子。
+
+例如 API 金鑰就可以放在裡面。
+
+31. API 金鑰 🔑
+load_dotenv()
+
+
+先讀取 .env。
+
+然後：
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
+就是把 API 金鑰拿出來。
+
+可以想成：
+
+🔑 API Key 就像「進入 AI 服務的鑰匙」。
+
+⚠️ API 金鑰很重要，不要把自己的金鑰公開給別人看。
+
+32. os.getenv()
+os.getenv("OPENAI_API_KEY")
+
+
+意思是：
+
+「去環境設定裡，找名字叫 OPENAI_API_KEY 的資料。」
+
+33. while True：一直做下去 🔄
+while True:
+
+
+可以想成：
+
+🔁「一直重複做這件事。」
+
+所以：
+
+while True:
+    user_input = input("你：")
+
+
+程式就會一直等待你輸入。
+
+34. input()：讓使用者輸入文字 ⌨️
+user_input = input("你：")
+
+
+畫面會出現：
+
+你：
+
+
+然後你可以輸入：
+
+你好
+
+
+程式就會把它放進：
+
+user_input
+
+35. .lower()：把英文變成小寫
+user_input.lower()
+
+
+例如：
+
+EXIT
+
+
+會變成：
+
+exit
+
+
+這樣程式就不用分辨：
+
+exit
+EXIT
+Exit
+eXiT
+
+36. break：停止迴圈 🛑
+if user_input.lower() in ["exit", "quit"]:
+    break
+
+
+意思是：
+
+如果使用者輸入 exit 或 quit，就停止聊天。
+
+break 可以想成：
+
+🛑「好了，停止！」
+
+37. 呼叫 AI
+response = openai.chat.completions.create(
+
+
+這是在告訴 OpenAI：
+
+🤖「請 AI 幫我回答這個問題。」
+
+38. model：選擇 AI
+model="gpt-4o-mini"
+
+
+意思是：
+
+「我要使用哪一個 AI 模型？」
+
+可以把模型想成：
+
+🤖 AI 機器人的不同種類。
+
+39. messages：告訴 AI 對話內容 💬
+messages=[
+    {"role": "system", "content": "請用繁體中文進行後續對話"},
+    {"role": "user", "content": user_input},
+]
+
+
+這裡很重要。
+
+AI 對話裡有不同角色：
+
+system
+"role": "system"
+
+
+可以想成：
+
+📢「老師交代 AI 的規則。」
+
+例如：
+
+請用繁體中文回答。
+
+user
+"role": "user"
+
+
+就是：
+
+🙋「使用者說的話。」
+
+例如：
+
+今天天氣如何？
+
+40. response.choices[0]
+
+AI 回答後：
+
+response.choices[0].message.content
+
+
+就是把 AI 真正回答的文字拿出來。
+
+可以想成：
+
+📦 AI 回傳了一個大包裹，我們把裡面的「答案」拿出來。
+
+41. print()
+print(f"AI:{assistant_massage}")
+
+
+就是在終端機印出：
+
+AI：你好！很高興認識你！
+
+
+📌 print()：
+
+🖨️ 把東西印出來。
+
+第四部分 💬 把 AI 做成網頁聊天機器人
+
+前面的 AI 是在「終端機」聊天。
+
+這次我們使用：
+
+import streamlit as st
+
+
+把它做成漂亮的網頁。
+
+42. st.secrets：安全取得秘密資料 🔐
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+
+這次沒有使用 .env，而是使用 Streamlit 的秘密設定。
+
+可以想成：
+
+🔐「從安全的小保險箱裡拿 API Key。」
+
+43. 幫 session_state 取短名字
+ss = st.session_state
+
+
+原本要寫：
+
+st.session_state.history
+
+
+現在可以寫：
+
+ss.history
+
+
+因為：
+
+ss = st.session_state
+
+
+就是幫它取一個短名字。
+
+📌 就像：
+
+「王小明太長了，我叫他小明。」
+
+44. 儲存聊天紀錄
+if "history" not in ss:
+    ss.history = []
+
+
+意思是：
+
+「如果還沒有聊天紀錄，就先準備一個空清單。」
+
+例如：
+
+ss.history = []
+
+
+一開始是：
+
+[]
+
+
+聊天之後變成：
+
+[
+  使用者說的話,
+  AI說的話,
+  使用者說的話,
+  AI說的話
+]
+
+45. role 和 content
+
+聊天紀錄可能長這樣：
+
+{
+    "role": "user",
+    "content": "你好"
+}
+
+
+其中：
+
+role → 誰說的？
+content → 說了什麼？
+
+例如：
+
+role：user
+content：你好
+
+
+就是：
+
+🙋 使用者說：「你好」
+
+AI 則是：
+
+{
+    "role": "assistant",
+    "content": "你好！"
+}
+
+46. st.chat_message()：顯示聊天訊息 💬
+st.chat_message("user").write(message["content"])
+
+
+可以顯示：
+
+🪄 你好
+
+
+AI：
+
+st.chat_message("assistant").write(message["content"])
+
+
+可以顯示：
+
+✨ 你好！很高興認識你。
+
+47. st.chat_input()：聊天輸入框
+prompt = st.chat_input("請輸入想要對話的訊息")
+
+
+網頁底下會有一個聊天輸入框。
+
+使用者輸入：
+
+你好
+
+
+之後：
+
+prompt
+
+
+就會得到：
+
+你好
+
+48. 把訊息加入聊天紀錄
+ss.history.append({
+    "role": "user",
+    "content": prompt
+})
+
+
+意思是：
+
+📋「把使用者剛剛說的話加入聊天紀錄。」
+
+49. 把 AI 回答也存起來
+ss.history.append({
+    "role": "assistant",
+    "content": assistant_massage
+})
+
+
+意思是：
+
+🤖「把 AI 的回答也加入聊天紀錄。」
+
+這樣下一次 AI 才能知道之前聊過什麼。
+
+50. 三欄排版
+col1, col2, col3 = st.columns([4, 2, 1])
+
+
+代表把畫面分成三個區域：
+
+┌──────────────────┬──────────┬─────┐
+│      col1        │   col2   │col3 │
+│       4          │    2     │  1  │
+└──────────────────┴──────────┴─────┘
+
+
+數字越大，欄位越寬。
+
+所以：
+
+[4, 2, 1]
+
+
+就是：
+
+📐 第一欄最大，第二欄其次，第三欄最小。
+
+51. text_input()：輸入文字
+ss.system_message = st.text_input(
+    "系統訊息",
+    ss.system_message
+)
+
+
+可以讓使用者自己修改 AI 的規則。
+
+例如：
+
+請用繁體中文回答
+
+
+改成：
+
+請像老師一樣回答問題
+
+
+AI 的回答方式就可能跟著改變。
+
+52. selectbox() 選 AI 模型
+ss.model = st.selectbox(
+    "AI模型",
+    ["gpt-4o-mini", "gpt-4o", ...]
+)
+
+
+讓使用者可以從選單選擇 AI 模型。
+
+就像：
+
+🤖「你今天想請哪一個 AI 幫忙？」
+
+53. 清除聊天紀錄 🗑️
+if st.button("🗑️ 清除對話紀錄"):
+    ss.history = []
+    st.rerun()
+
+
+按下按鈕後：
+
+ss.history = []
+
+
+把聊天紀錄變成空清單。
+
+就像：
+
+🗑️ 把聊天紀錄全部丟進垃圾桶。
+
+然後：
+
+st.rerun()
+
+
+重新整理網頁。
+
+⭐ 今天最重要的觀念整理
+
+如果要準備考試，我最推薦你記住下面這些。
+
+Python 指令	簡單意思
+import	📦 拿工具來使用
+if	🤔 如果
+else	↪️ 不然
+for	🔄 一個一個重複做
+while	🔁 一直重複
+break	🛑 停止迴圈
+in	🔎 有沒有在裡面
+=	📥 把資料放進去
+==	⚖️ 比較是不是相等
+>	⬆️ 大於
+<	⬇️ 小於
+%	🧮 取餘數
+append()	➕ 加進列表
+print()	🖨️ 印出文字
+input()	⌨️ 讓使用者輸入
+range()	🔢 產生數字範圍
+lower()	🔡 變成英文小寫
+sleep()	⏰ 等待一下
+rerun()	🔄 重新執行網頁
+🌟 Streamlit 指令小抄
+指令	功能
+st.title()	🏷️ 大標題
+st.write()	✏️ 顯示文字
+st.image()	🖼️ 顯示圖片
+st.button()	🔘 按鈕
+st.number_input()	🔢 數字輸入
+st.text_input()	✏️ 文字輸入
+st.selectbox()	📋 選擇一個項目
+st.columns()	📐 分欄
+st.success()	🟢 成功訊息
+st.error()	🔴 錯誤訊息
+st.chat_message()	💬 顯示聊天訊息
+st.chat_input()	💬 聊天輸入框
+st.rerun()	🔄 重新執行
+st.session_state	🎒 記住資料
+🤖 AI 聊天機器人的流程
+
+最後，把整個 AI 程式想成一個小故事：
+
+🙋 使用者
+   ↓
+「你好」
+   ↓
+📨 Python 把問題送給 AI
+   ↓
+🤖 AI 思考
+   ↓
+💬 AI 回答
+   ↓
+📦 Python 把答案拿回來
+   ↓
+🖥️ 顯示在網頁上
+
+
+而 history 就像一本：
+
+📕「聊天日記」
+
+把每次：
+
+🙋 使用者說什麼
+🤖 AI 說什麼
+
+
+都記錄下來。
+
+🧠 一張圖記住今天的課程
+                    🐍 Python
+                       │
+          ┌────────────┴────────────┐
+          ↓                         ↓
+      🛒 購物平台                 🤖 AI 聊天
+          │                         │
+     Streamlit                    OpenAI
+          │                         │
+   ┌──────┼──────┐           ┌──────┼──────┐
+   ↓      ↓      ↓           ↓      ↓      ↓
+ 商品    按鈕   庫存        API    Model  History
+   │      │      │           │      │      │
+ List   if/else session     Key   模型   聊天紀錄
+        button   state
+
+🎯 今天最核心的三件事
+
+第一：Python 可以管理資料。
+
+例如：
+
+products = []
+
+
+和：
+
+product["price"]
+
+
+可以幫我們管理商品。
+
+第二：Streamlit 可以把 Python 變成網頁。
+
+例如：
+
+st.button()
+st.image()
+st.write()
+st.chat_input()
+
+
+可以做出互動式網站。
+
+第三：OpenAI API 可以讓程式跟 AI 對話。
+
+基本流程就是：
+
+使用者問題
+    ↓
+Python
+    ↓
+OpenAI API
+    ↓
+AI
+    ↓
+Python
+    ↓
+顯示回答
+
+
+只要把這三個觀念弄懂，你今天學的購物平台和 AI 聊天機器人就會串起來了。
       """
     )
